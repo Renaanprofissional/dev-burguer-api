@@ -11,6 +11,8 @@ class User extends Model {
         sequelize,
         tableName: 'users',
     })
+
+    return this;
   }
 }
 
