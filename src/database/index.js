@@ -30,4 +30,4 @@ class Database {
   }
 }
 
-export default new Database();S
+export default new Database();
