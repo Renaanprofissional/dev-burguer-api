@@ -11,7 +11,6 @@ import multerConfig from './config/multer.cjs';
 import adminMiddleware from './middlewares/admin.js';
 import authMiddleware from './middlewares/auth.js';
 
-
 const routes = new Router();
 
 const upload = multer(multerConfig);
@@ -51,11 +50,11 @@ routes.put(
 );
 routes.get('/categories', CategoryController.index);
 
-routes.post(
-  '/orders',
-  adminMiddleware,
-  OrderController.store,
-);
+routes.post('/orders', OrderController.store);
+
+routes.get('/orders', OrderController.index);
+
+routes.put('/orders/:id', adminMiddleware, OrderController.update);
 
 export default routes;
 
