@@ -16,11 +16,11 @@ const routes = new Router();
 
 const upload = multer(multerConfig);
 
-routes.post('/users', UserController.store);
-routes.post('/sessions', SessionController.store);
+routes.post('/users', UserController.store); // Cadastro
+routes.post('/sessions', SessionController.store); // Login
 
 routes.use(authMiddleware);
-// All routes below are protected.
+// será chamado por todas as rotas abaixo, ou seja, todas as rotas abaixo precisam de autenticação
 routes.post(
   '/products',
   adminMiddleware,
