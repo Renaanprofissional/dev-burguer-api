@@ -1,61 +1,63 @@
-import { Router } from 'express';
-import multer from 'multer';
+import { Router } from "express";
+import multer from "multer";
 
-import CategoryController from './app/controller/CategoryController.js';
-import OrderController from './app/controller/OrderController.js';
-import ProductController from './app/controller/ProductController.js';
-import SessionController from './app/controller/SessionController.js';
-import UserController from './app/controller/UserController.js';
+import CategoryController from "./app/controller/CategoryController.js";
+import OrderController from "./app/controller/OrderController.js";
+import ProductController from "./app/controller/ProductController.js";
+import SessionController from "./app/controller/SessionController.js";
+import UserController from "./app/controller/UserController.js";
+import CreatePaymentIntentController from "./app/controller/stripe/CreatePaymentIntentController.js";
 
-
-import adminMiddleware from './app/middlewares/admin.js';
-import authMiddleware from './app/middlewares/auth.js';
-import multerConfig from './config/multer.cjs';
+import adminMiddleware from "./app/middlewares/admin.js";
+import authMiddleware from "./app/middlewares/auth.js";
+import multerConfig from "./config/multer.cjs";
 
 const routes = new Router();
 
 const upload = multer(multerConfig);
 
-routes.post('/users', UserController.store); // Cadastro
-routes.post('/sessions', SessionController.store); // Login
+routes.post("/users", UserController.store); // Cadastro
+routes.post("/sessions", SessionController.store); // Login
 
 routes.use(authMiddleware);
 // será chamado por todas as rotas abaixo, ou seja, todas as rotas abaixo precisam de autenticação
 routes.post(
-  '/products',
+  "/products",
   adminMiddleware,
-  upload.single('file'),
+  upload.single("file"),
   ProductController.store,
 );
 
 routes.put(
-  '/products/:id',
+  "/products/:id",
   adminMiddleware,
-  upload.single('file'),
+  upload.single("file"),
   ProductController.update,
 );
 
-routes.get('/products', ProductController.index);
+routes.get("/products", ProductController.index);
 
 routes.post(
-  '/categories',
+  "/categories",
   adminMiddleware,
-  upload.single('file'),
+  upload.single("file"),
   CategoryController.store,
 );
 routes.put(
-  '/categories/:id',
+  "/categories/:id",
   adminMiddleware,
-  upload.single('file'),
+  upload.single("file"),
   CategoryController.update,
 );
-routes.get('/categories', CategoryController.index);
+routes.get("/categories", CategoryController.index);
 
-routes.post('/orders', OrderController.store);
+routes.post("/orders", OrderController.store);
 
-routes.get('/orders', OrderController.index);
+routes.get("/orders", OrderController.index);
 
-routes.put('/orders/:id', adminMiddleware, OrderController.update);
+routes.put("/orders/:id", adminMiddleware, OrderController.update);
+
+routes.post("/create-payment-intent", CreatePaymentIntentController.store);
 
 export default routes;
 
